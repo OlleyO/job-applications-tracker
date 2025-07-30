@@ -1,9 +1,11 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { BriefcaseBusiness, UserRoundCog } from "lucide-react";
-import { Button } from "./ui/button";
-import { authClient } from "@/lib/auth-client";
+import { authClient } from '@/lib/auth-client';
+import { BriefcaseBusiness, UserRoundCog } from 'lucide-react';
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import { toast } from 'sonner';
+import { Button } from './ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,9 +13,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
-import { toast } from "sonner";
-import { redirect } from "next/navigation";
+} from './ui/dropdown-menu';
 
 export function Navbar() {
   async function handleSignOut() {
@@ -23,7 +23,7 @@ export function Navbar() {
           toast.error(ctx.error.message);
         },
         onSuccess: () => {
-          redirect("/auth/login");
+          redirect('/auth/login');
         },
       },
     });

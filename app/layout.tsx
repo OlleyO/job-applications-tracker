@@ -1,11 +1,11 @@
-import type { Metadata } from "next";
-import "./globals.css";
-import { Toaster } from "sonner";
-import { Navbar } from "@/components/navbar";
+import { Navbar } from '@/components/navbar';
+import type { Metadata } from 'next';
+import { Toaster } from 'sonner';
+import './globals.css';
 
 export const metadata: Metadata = {
-  title: "Job Tracker",
-  description: "Track your job applications",
+  title: 'Job Tracker',
+  description: 'Track your job applications',
 };
 
 export default function RootLayout({
