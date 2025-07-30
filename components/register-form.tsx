@@ -42,7 +42,8 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<'div'
           toast.error(ctx.error.message);
         },
         onSuccess: () => {
-          redirect('/');
+          toast.success('Account created successfully! Please login to continue');
+          redirect('/auth/login');
         },
         onResponse: () => {
           setIsPending(false);
