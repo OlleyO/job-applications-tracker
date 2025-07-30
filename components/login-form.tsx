@@ -8,9 +8,13 @@ import { authClient } from '@/lib/auth-client';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
+import { useState } from 'react';
 import { toast } from 'sonner';
+import { Loading } from './ui/loading';
 
 export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) {
+  const [isPending, setIsPending] = useState(false);
+
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
@@ -30,11 +34,17 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
       email,
       password,
       fetchOptions: {
+        onRequest: () => {
+          setIsPending(true);
+        },
         onError: (ctx) => {
           toast.error(ctx.error.message);
         },
         onSuccess: () => {
           redirect('/');
+        },
+        onResponse: () => {
+          setIsPending(false);
         },
       },
     });
@@ -69,8 +79,8 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
               </div>
 
               <div className="flex flex-col gap-3">
-                <Button type="submit" className="w-full">
-                  Login
+                <Button type="submit" className="w-full" disabled={isPending}>
+                  {isPending ? <Loading /> : 'Login'}
                 </Button>
                 {/* TODO: Implement Google login */}
                 {/* <Button variant="outline" className="w-full">

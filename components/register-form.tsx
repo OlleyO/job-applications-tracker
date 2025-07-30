@@ -7,9 +7,14 @@ import { Label } from '@/components/ui/label';
 import { authClient } from '@/lib/auth-client';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import { useState } from 'react';
 import { toast } from 'sonner';
+import { Loading } from './ui/loading';
 
 export function RegisterForm({ className, ...props }: React.ComponentProps<'div'>) {
+  const [isPending, setIsPending] = useState(false);
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
@@ -30,10 +35,17 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<'div'
         password,
       },
       {
-        onRequest: () => {},
-        onResponse: () => {},
+        onRequest: () => {
+          setIsPending(true);
+        },
         onError: (ctx) => {
           toast.error(ctx.error.message);
+        },
+        onSuccess: () => {
+          redirect('/');
+        },
+        onResponse: () => {
+          setIsPending(false);
         },
       },
     );
@@ -67,8 +79,8 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<'div'
               </div>
 
               <div className="flex flex-col gap-3">
-                <Button type="submit" className="w-full">
-                  Create account
+                <Button type="submit" className="w-full" disabled={isPending}>
+                  {isPending ? <Loading /> : 'Create account'}
                 </Button>
                 {/* TODO: Implement Google login */}
                 {/* <Button variant="outline" className="w-full">
@@ -79,7 +91,7 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<'div'
 
             <div className="mt-4 text-center text-sm">
               Already have an account?{' '}
-              <Link href="/auth/register" className="underline underline-offset-4">
+              <Link href="/auth/login" className="underline underline-offset-4">
                 Login
               </Link>
             </div>
