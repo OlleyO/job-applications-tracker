@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { authClient } from '@/lib/auth-client';
 import { routes } from '@/lib/routes';
 import { cn } from '@/lib/utils';
-import { signInSchema } from '@/models/auth';
+import { signInSchema } from '@/models/auth.model';
 import type { FormErrorState, TNullable } from '@/types';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
