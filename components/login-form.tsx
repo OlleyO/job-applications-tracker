@@ -2,37 +2,38 @@
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { authClient } from '@/lib/auth-client';
 import { cn } from '@/lib/utils';
+import { signInSchema } from '@/models/auth';
+import type { FormErrorState, TNullable } from '@/types';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { z } from 'zod';
+import { InputField } from './ui/input-field';
 import { Loading } from './ui/loading';
 
 export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) {
   const [isPending, setIsPending] = useState(false);
+  const [errors, setErrors] = useState<TNullable<FormErrorState<typeof signInSchema>>>(null);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
-    const email = String(formData.get('email'));
-    const password = String(formData.get('password'));
-    const name = String(formData.get('name'));
+    const email = formData.get('email');
+    const password = formData.get('password');
 
-    const emptyField = [email, password, name].find((field) => !field);
+    const result = signInSchema.safeParse({ email, password });
 
-    if (emptyField) {
-      toast.error('Please enter your email, password, and name');
+    if (!result.success) {
+      setErrors(z.treeifyError(result.error).properties);
       return;
     }
 
     authClient.signIn.email({
-      email,
-      password,
+      ...result.data,
       fetchOptions: {
         onRequest: () => {
           setIsPending(true);
@@ -60,23 +61,31 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
         <CardContent>
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col gap-6">
-              <div className="grid gap-3">
-                <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" name="email" placeholder="m@example.com" />
-              </div>
+              <InputField
+                label="Email"
+                errors={errors?.email?.errors}
+                id="email"
+                name="email"
+                type="email"
+                placeholder="m@example.com"
+              />
 
-              <div className="grid gap-3">
-                <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
+              <InputField
+                label="Password"
+                errors={errors?.password?.errors}
+                id="password"
+                name="password"
+                type="password"
+                placeholder="********"
+                labelSuffix={
                   <Link
                     href="/auth/forgot-password"
                     className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
                   >
                     Forgot your password?
                   </Link>
-                </div>
-                <Input id="password" type="password" name="password" />
-              </div>
+                }
+              />
 
               <div className="flex flex-col gap-3">
                 <Button type="submit" className="w-full" disabled={isPending}>
