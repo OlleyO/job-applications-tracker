@@ -45,7 +45,7 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<'div'
       },
       onSuccess: () => {
         toast.success('Account created successfully! Please login to continue');
-        redirect('/auth/login');
+        redirect(routes.login());
       },
       onResponse: () => {
         setIsPending(false);

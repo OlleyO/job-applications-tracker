@@ -1,5 +1,6 @@
 import { Navbar } from '@/components/navbar';
 import { auth } from '@/lib/auth';
+import { routes } from '@/lib/routes';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 
@@ -9,7 +10,7 @@ export default async function GuardedLayout({ children }: { children: React.Reac
   });
 
   if (!session?.session) {
-    redirect('/login');
+    redirect(routes.login());
   }
 
   return (

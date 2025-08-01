@@ -43,7 +43,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
           toast.error(ctx.error.message);
         },
         onSuccess: () => {
-          redirect('/');
+          redirect(routes.home());
         },
         onResponse: () => {
           setIsPending(false);

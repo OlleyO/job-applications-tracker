@@ -1,6 +1,7 @@
 'use client';
 
 import { authClient } from '@/lib/auth-client';
+import { routes } from '@/lib/routes';
 import { BriefcaseBusiness, UserRoundCog } from 'lucide-react';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
@@ -23,7 +24,7 @@ export function Navbar() {
           toast.error(ctx.error.message);
         },
         onSuccess: () => {
-          redirect('/auth/login');
+          redirect(routes.login());
         },
       },
     });
@@ -49,7 +50,7 @@ export function Navbar() {
             <DropdownMenuSeparator />
 
             <DropdownMenuItem asChild>
-              <Link href="/profile">Profile</Link>
+              <Link href={routes.profile()}>Profile</Link>
             </DropdownMenuItem>
 
             <DropdownMenuItem onClick={handleSignOut} variant="destructive">
