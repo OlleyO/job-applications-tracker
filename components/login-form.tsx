@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { authClient } from '@/lib/auth-client';
+import { routes } from '@/lib/routes';
 import { cn } from '@/lib/utils';
 import { signInSchema } from '@/models/auth';
 import type { FormErrorState, TNullable } from '@/types';
@@ -79,7 +80,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
                 placeholder="********"
                 labelSuffix={
                   <Link
-                    href="/auth/forgot-password"
+                    href={routes.forgotPassword()}
                     className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
                   >
                     Forgot your password?
@@ -99,7 +100,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
             </div>
             <div className="mt-4 text-center text-sm">
               Don&apos;t have an account?{' '}
-              <Link href="/auth/register" className="underline underline-offset-4">
+              <Link href={routes.register()} className="underline underline-offset-4">
                 Sign up
               </Link>
             </div>

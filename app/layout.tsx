@@ -1,4 +1,3 @@
-import { Navbar } from '@/components/navbar';
 import type { Metadata } from 'next';
 import { Toaster } from 'sonner';
 import './globals.css';
@@ -16,10 +15,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Navbar />
-
-        {children}
         <Toaster position="top-center" richColors />
+        {children}
       </body>
     </html>
   );

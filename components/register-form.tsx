@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { authClient } from '@/lib/auth-client';
+import { routes } from '@/lib/routes';
 import { cn } from '@/lib/utils';
 import { signUpSchema } from '@/models/auth';
 import type { FormErrorState, TNullable } from '@/types';
@@ -102,7 +103,7 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<'div'
 
             <div className="mt-4 text-center text-sm">
               Already have an account?{' '}
-              <Link href="/auth/login" className="underline underline-offset-4">
+              <Link href={routes.login()} className="underline underline-offset-4">
                 Login
               </Link>
             </div>
